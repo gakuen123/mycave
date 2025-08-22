@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Photo Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #image {
+      width: 600px;
+      height: 400px;
+      margin: 20px auto;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #image img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .preview {
+      width: 150px;
+      height: 100px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body onload="initGallery()">
+  <h1>Interactive Photo Gallery</h1>
+
+  <!-- Large display area -->
+  <div id="image">
+    <p>Hover or focus on an image below to display it here.</p>
+  </div>
+
+  <!-- Thumbnails -->
+  <div>
+    <img class="preview" src="img/cat-cats.png" alt="cat">
+    <img class="preview" src="img/cat2.jpg" alt="cat">
+    <img class="preview" src="img/cat3.jpg" alt="cat">
+    <img class="preview" src="img/cat4.jpg" alt="cat">
+    <img class="preview" src="img/cat5.jpg" alt="cat">
+    <img class="preview" src="img/cat6.jpg" alt="cat">
+  </div>
+
+  <script>
+    function upDate(previewPic) {
+      const display = document.getElementById("image");
+      display.innerHTML = "<img src='" + previewPic.src + "' alt='" + previewPic.alt + "'>";
+      console.log("Image updated: " + previewPic.alt);
+    }
+
+    function undo() {
+      const display = document.getElementById("image");
+      display.innerHTML = "<p>Hover or focus on an image below to display it here.</p>";
+      console.log("Image reset");
+    }
+
+    function initGallery() {
+      console.log("Page loaded – initializing gallery...");
+
+      const images = document.querySelectorAll(".preview");
+
+      for (let i = 0; i < images.length; i++) {
+        images[i].setAttribute("tabindex", "0"); // Add tabindex for keyboard navigation
+
+        // Mouse events
+        images[i].addEventListener("mouseover", function () {
+          upDate(this);
+        });
+        images[i].addEventListener("mouseleave", function () {
+          undo();
+        });
+
+        // Keyboard focus events
+        images[i].addEventListener("focus", function () {
+          upDate(this);
+        });
+        images[i].addEventListener("blur", function () {
+          undo();
+        });
+      }
+    }
+  </script>
+</body>
+</html>
